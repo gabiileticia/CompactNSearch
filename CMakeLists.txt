@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 
 project(CompactNSearch)
 
@@ -59,6 +59,10 @@ OPTION(USE_DOUBLE_PRECISION "Use double precision"	ON)
 if (USE_DOUBLE_PRECISION)
 	add_definitions( -DUSE_DOUBLE)	
 endif (USE_DOUBLE_PRECISION)	
+
+if(WIN32)
+	add_definitions( -D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
+endif() 
 
 option(BUILD_DEMO "Build example of how to use this library."
 		ON)

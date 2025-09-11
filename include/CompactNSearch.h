@@ -195,6 +195,14 @@ public:
 		return m_activation_table.is_active(i, j);
 	}
 
+	/**
+	* Resets the internal state of the neighborhood search. This will force a complete reinitialization.
+	*/
+	void reset()
+	{
+		m_initialized = false;
+	}
+
 private:
 
 	void init();
