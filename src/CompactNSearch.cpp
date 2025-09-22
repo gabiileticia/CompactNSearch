@@ -506,7 +506,7 @@ NeighborhoodSearch::query()
 			}
 			entry_locks[kvp.second].unlock();
 
-			int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+			int numCells = static_cast<int>(ceil(4 * m_inv_cell_size));
 
 			int nx = (key.k[0] + dj + numCells) % numCells;
 			int ny = (key.k[1] + dk + numCells) % numCells;
@@ -673,7 +673,7 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 					continue;
 				}
 
-				int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+				int numCells = static_cast<int>(ceil(4 * m_inv_cell_size));
 
 				int nx = (hash_key.k[0] + dj + numCells) % numCells;
 				int ny = (hash_key.k[1] + dk + numCells) % numCells;
@@ -796,7 +796,7 @@ NeighborhoodSearch::query(Real const* xa, std::vector<std::vector<unsigned int>>
 					continue;
 				}
 
-				int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+				int numCells = static_cast<int>(ceil(4 * m_inv_cell_size));
 
 				int nx = (hash_key.k[0] + dj + numCells) % numCells;
 				int ny = (hash_key.k[1] + dk + numCells) % numCells;
