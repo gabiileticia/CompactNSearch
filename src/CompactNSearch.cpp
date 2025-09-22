@@ -430,14 +430,33 @@ NeighborhoodSearch::query()
 					continue;
 				}
 
+				auto periodic_delta = [&](Real d) {
+					Real L = 4.0;
+					if (d >  L/2) d -= L;
+					if (d < -L/2) d += L;
+					return d;
+				};
+
 				Real const* xa = da.point(va.point_id);
 				Real const* xb = db.point(vb.point_id);
-				Real tmp = xa[0] - xb[0];
-				Real l2 = tmp * tmp;
-				tmp = xa[1] - xb[1];
-				l2 += tmp * tmp;
-				tmp = xa[2] - xb[2];
-				l2 += tmp * tmp;
+
+				Real dx = xa[0] - xb[0];
+				dx = periodic_delta(dx);
+
+				Real dy = xa[1] - xb[1];
+				dy = periodic_delta(dy);
+
+				Real dz = xa[2] - xb[2];
+				dz = periodic_delta(dz);
+
+				Real l2 = dx*dx + dy*dy + dz*dz;
+				
+				// Real tmp = xa[0] - xb[0];
+				// Real l2 = tmp * tmp;
+				// tmp = xa[1] - xb[1];
+				// l2 += tmp * tmp;
+				// tmp = xa[2] - xb[2];
+				// l2 += tmp * tmp;
 
 				if (l2 < m_r2)
 				{
@@ -529,14 +548,35 @@ NeighborhoodSearch::query()
 						continue;
 					}
 
+					// Real const* xa = da.point(va.point_id);
+					// Real const* xb = db.point(vb.point_id);
+					// Real tmp = xa[0] - xb[0];
+					// Real l2 = tmp * tmp;
+					// tmp = xa[1] - xb[1];
+					// l2 += tmp * tmp;
+					// tmp = xa[2] - xb[2];
+					// l2 += tmp * tmp;
+					auto periodic_delta = [&](Real d) {
+						Real L = 4.0;
+						if (d >  L/2) d -= L;
+						if (d < -L/2) d += L;
+						return d;
+					};
+
 					Real const* xa = da.point(va.point_id);
 					Real const* xb = db.point(vb.point_id);
-					Real tmp = xa[0] - xb[0];
-					Real l2 = tmp * tmp;
-					tmp = xa[1] - xb[1];
-					l2 += tmp * tmp;
-					tmp = xa[2] - xb[2];
-					l2 += tmp * tmp;
+
+					Real dx = xa[0] - xb[0];
+					dx = periodic_delta(dx);
+
+					Real dy = xa[1] - xb[1];
+					dy = periodic_delta(dy);
+
+					Real dz = xa[2] - xb[2];
+					dz = periodic_delta(dz);
+
+					Real l2 = dx*dx + dy*dy + dz*dz;
+
 					if (l2 < m_r2)
 					{
 						if (m_activation_table.is_active(va.point_set_id, vb.point_set_id))
@@ -591,12 +631,33 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 
 			PointSet& db = m_point_sets[vb.point_set_id];
 			Real const* xb = db.point(vb.point_id);
-			Real tmp = xa[0] - xb[0];
-			Real l2 = tmp * tmp;
-			tmp = xa[1] - xb[1];
-			l2 += tmp * tmp;
-			tmp = xa[2] - xb[2];
-			l2 += tmp * tmp;
+			// Real tmp = xa[0] - xb[0];
+			// Real l2 = tmp * tmp;
+			// tmp = xa[1] - xb[1];
+			// l2 += tmp * tmp;
+			// tmp = xa[2] - xb[2];
+			// l2 += tmp * tmp;
+
+			auto periodic_delta = [&](Real d) {
+				Real L = 4.0;
+				if (d >  L/2) d -= L;
+				if (d < -L/2) d += L;
+				return d;
+			};
+
+			// Real const* xa = da.point(va.point_id);
+			// Real const* xb = db.point(vb.point_id);
+
+			Real dx = xa[0] - xb[0];
+			dx = periodic_delta(dx);
+
+			Real dy = xa[1] - xb[1];
+			dy = periodic_delta(dy);
+
+			Real dz = xa[2] - xb[2];
+			dz = periodic_delta(dz);
+
+			Real l2 = dx*dx + dy*dy + dz*dz;
 
 			if (l2 < m_r2)
 			{
@@ -637,12 +698,33 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 					PointSet& db = m_point_sets[vb.point_set_id];
 
 					Real const* xb = db.point(vb.point_id);
-					Real tmp = xa[0] - xb[0];
-					Real l2 = tmp * tmp;
-					tmp = xa[1] - xb[1];
-					l2 += tmp * tmp;
-					tmp = xa[2] - xb[2];
-					l2 += tmp * tmp;
+					// Real tmp = xa[0] - xb[0];
+					// Real l2 = tmp * tmp;
+					// tmp = xa[1] - xb[1];
+					// l2 += tmp * tmp;
+					// tmp = xa[2] - xb[2];
+					// l2 += tmp * tmp;
+
+					auto periodic_delta = [&](Real d) {
+						Real L = 4.0;
+						if (d >  L/2) d -= L;
+						if (d < -L/2) d += L;
+						return d;
+					};
+
+					// Real const* xa = da.point(va.point_id);
+					// Real const* xb = db.point(vb.point_id);
+
+					Real dx = xa[0] - xb[0];
+					dx = periodic_delta(dx);
+
+					Real dy = xa[1] - xb[1];
+					dy = periodic_delta(dy);
+
+					Real dz = xa[2] - xb[2];
+					dz = periodic_delta(dz);
+
+					Real l2 = dx*dx + dy*dy + dz*dz;
 
 					if (l2 < m_r2)
 					{
