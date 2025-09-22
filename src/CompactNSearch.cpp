@@ -55,6 +55,14 @@ NeighborhoodSearch::cell_index(Real const* x) const
 	return ret;
 }
 
+inline Real periodic_delta(Real d)
+{
+	Real L = 4.0;
+    if (d >  L/2) d -= L;
+    if (d < -L/2) d += L;
+    return d;
+}
+
 // Determines permutation table for point array.
 void
 NeighborhoodSearch::z_sort()
@@ -430,13 +438,6 @@ NeighborhoodSearch::query()
 					continue;
 				}
 
-				auto periodic_delta = [&](Real d) {
-					Real L = 4.0;
-					if (d >  L/2) d -= L;
-					if (d < -L/2) d += L;
-					return d;
-				};
-
 				Real const* xa = da.point(va.point_id);
 				Real const* xb = db.point(vb.point_id);
 
@@ -505,9 +506,16 @@ NeighborhoodSearch::query()
 			}
 			entry_locks[kvp.second].unlock();
 
+			int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+
+			int nx = (key.k[0] + dj + numCells) % numCells;
+			int ny = (key.k[1] + dk + numCells) % numCells;
+			int nz = (key.k[2] + dl + numCells) % numCells;
+
+			auto it = m_map.find({ nx, ny, nz });
 
 
-			auto it = m_map.find({ key.k[0] + dj, key.k[1] + dk, key.k[2] + dl });
+			//auto it = m_map.find({ key.k[0] + dj, key.k[1] + dk, key.k[2] + dl });
 			if (it == m_map.end())
 				continue;
 
@@ -556,12 +564,6 @@ NeighborhoodSearch::query()
 					// l2 += tmp * tmp;
 					// tmp = xa[2] - xb[2];
 					// l2 += tmp * tmp;
-					auto periodic_delta = [&](Real d) {
-						Real L = 4.0;
-						if (d >  L/2) d -= L;
-						if (d < -L/2) d += L;
-						return d;
-					};
 
 					Real const* xa = da.point(va.point_id);
 					Real const* xb = db.point(vb.point_id);
@@ -638,13 +640,6 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 			// tmp = xa[2] - xb[2];
 			// l2 += tmp * tmp;
 
-			auto periodic_delta = [&](Real d) {
-				Real L = 4.0;
-				if (d >  L/2) d -= L;
-				if (d < -L/2) d += L;
-				return d;
-			};
-
 			// Real const* xa = da.point(va.point_id);
 			// Real const* xb = db.point(vb.point_id);
 
@@ -678,7 +673,15 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 					continue;
 				}
 
-				auto it = m_map.find({ hash_key.k[0] + dj, hash_key.k[1] + dk, hash_key.k[2] + dl });
+				int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+
+				int nx = (hash_key.k[0] + dj + numCells) % numCells;
+				int ny = (hash_key.k[1] + dk + numCells) % numCells;
+				int nz = (hash_key.k[2] + dl + numCells) % numCells;
+
+				auto it = m_map.find({ nx, ny, nz });
+
+				//auto it = m_map.find({ hash_key.k[0] + dj, hash_key.k[1] + dk, hash_key.k[2] + dl });
 				if (it == m_map.end())
 					continue;
 
@@ -704,13 +707,6 @@ NeighborhoodSearch::query(unsigned int point_set_id, unsigned int point_index, s
 					// l2 += tmp * tmp;
 					// tmp = xa[2] - xb[2];
 					// l2 += tmp * tmp;
-
-					auto periodic_delta = [&](Real d) {
-						Real L = 4.0;
-						if (d >  L/2) d -= L;
-						if (d < -L/2) d += L;
-						return d;
-					};
 
 					// Real const* xa = da.point(va.point_id);
 					// Real const* xb = db.point(vb.point_id);
@@ -767,13 +763,6 @@ NeighborhoodSearch::query(Real const* xa, std::vector<std::vector<unsigned int>>
 			// tmp = xa[2] - xb[2];
 			// l2 += tmp * tmp;
 
-			auto periodic_delta = [&](Real d) {
-				Real L = 4.0;
-				if (d >  L/2) d -= L;
-				if (d < -L/2) d += L;
-				return d;
-			};
-
 			// Real const* xa = da.point(va.point_id);
 			// Real const* xb = db.point(vb.point_id);
 
@@ -807,7 +796,15 @@ NeighborhoodSearch::query(Real const* xa, std::vector<std::vector<unsigned int>>
 					continue;
 				}
 
-				auto it = m_map.find({ hash_key.k[0] + dj, hash_key.k[1] + dk, hash_key.k[2] + dl });
+				int numCells = static_cast<int>(ceil(4.0 / m_inv_cell_size));
+
+				int nx = (hash_key.k[0] + dj + numCells) % numCells;
+				int ny = (hash_key.k[1] + dk + numCells) % numCells;
+				int nz = (hash_key.k[2] + dl + numCells) % numCells;
+
+				auto it = m_map.find({ nx, ny, nz });
+
+				//auto it = m_map.find({ hash_key.k[0] + dj, hash_key.k[1] + dk, hash_key.k[2] + dl });
 				if (it == m_map.end())
 					continue;
 
@@ -825,13 +822,6 @@ NeighborhoodSearch::query(Real const* xa, std::vector<std::vector<unsigned int>>
 					// l2 += tmp * tmp;
 					// tmp = xa[2] - xb[2];
 					// l2 += tmp * tmp;
-
-					auto periodic_delta = [&](Real d) {
-						Real L = 4.0;
-						if (d >  L/2) d -= L;
-						if (d < -L/2) d += L;
-						return d;
-					};
 
 					// Real const* xa = da.point(va.point_id);
 					// Real const* xb = db.point(vb.point_id);
